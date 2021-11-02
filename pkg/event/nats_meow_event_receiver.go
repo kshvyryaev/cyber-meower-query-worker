@@ -27,9 +27,8 @@ func ProvideNatsMeowEventReceiver(connection *nats.EncodedConn) (*NatsMeowEventR
 	return &NatsMeowEventReceiver{connection: connection, channel: channel}, cleanup, nil
 }
 
-func (receiver *NatsMeowEventReceiver) Receive() *eventContract.MeowCreatedEvent {
-	event := <-receiver.channel
-	return event
+func (receiver *NatsMeowEventReceiver) Receive() <-chan *eventContract.MeowCreatedEvent {
+	return receiver.channel
 }
 
 var NatsMeowEventPublisherSet = wire.NewSet(

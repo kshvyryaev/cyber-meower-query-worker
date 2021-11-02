@@ -12,8 +12,7 @@ func main() {
 	connection, _, _ := event.ProvideNatsConnection(config)
 	receiver, _, _ := event.ProvideNatsMeowEventReceiver(connection)
 
-	for {
-		meowEvent := receiver.Receive()
+	for meowEvent := range receiver.Receive() {
 		fmt.Println(meowEvent)
 	}
 }
