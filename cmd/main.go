@@ -16,8 +16,8 @@ func main() {
 
 	wg := &sync.WaitGroup{}
 	for i := 0; i < runtime.NumCPU(); i++ {
-		go meowSeederWorker.Run()
 		wg.Add(1)
+		go meowSeederWorker.Run(wg)
 	}
 	wg.Wait()
 }

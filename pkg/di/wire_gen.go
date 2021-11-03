@@ -9,6 +9,7 @@ package di
 import (
 	"github.com/kshvyryaev/cyber-meower-query-worker/pkg"
 	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/event"
+	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/search"
 	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/worker"
 )
 
@@ -25,14 +26,23 @@ func InitializeMeowSeederWorker() (*worker.MeowSeederWorker, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	logger, cleanup3, err := pkg.ProvideZap()
+	client, cleanup3, err := search.ProvideElastic(config)
 	if err != nil {
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
-	meowSeederWorker := worker.ProvideMeowSeederWorker(natsMeowEventReceiver, logger)
+	elasticMeowRepository := search.ProvideElasticMeowRepository(client)
+	logger, cleanup4, err := pkg.ProvideZap()
+	if err != nil {
+		cleanup3()
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
+	meowSeederWorker := worker.ProvideMeowSeederWorker(natsMeowEventReceiver, elasticMeowRepository, logger)
 	return meowSeederWorker, func() {
+		cleanup4()
 		cleanup3()
 		cleanup2()
 		cleanup()

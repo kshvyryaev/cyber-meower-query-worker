@@ -20,6 +20,7 @@ require (
 )
 
 require (
+	github.com/elastic/go-elasticsearch/v7 v7.15.1
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 )
