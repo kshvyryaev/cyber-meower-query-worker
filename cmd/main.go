@@ -1,18 +1,23 @@
 package main
 
 import (
-	"fmt"
+	"runtime"
+	"sync"
 
-	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/config"
-	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/event"
+	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/di"
 )
 
 func main() {
-	config := config.ProvideConfig()
-	connection, _, _ := event.ProvideNatsConnection(config)
-	receiver, _, _ := event.ProvideNatsMeowEventReceiver(connection)
-
-	for meowEvent := range receiver.Receive() {
-		fmt.Println(meowEvent)
+	meowSeederWorker, cleanup, err := di.InitializeMeowSeederWorker()
+	if err != nil {
+		panic("cannot initialize meow seeder worker: " + err.Error())
 	}
+	defer cleanup()
+
+	wg := &sync.WaitGroup{}
+	for i := 0; i < runtime.NumCPU(); i++ {
+		go meowSeederWorker.Run()
+		wg.Add(1)
+	}
+	wg.Wait()
 }
