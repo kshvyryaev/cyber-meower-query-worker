@@ -26,23 +26,21 @@ func InitializeMeowSeederWorker() (*worker.MeowSeederWorker, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	client, cleanup3, err := search.ProvideElastic(config)
+	client, err := search.ProvideElastic(config)
 	if err != nil {
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
 	elasticMeowRepository := search.ProvideElasticMeowRepository(client)
-	logger, cleanup4, err := pkg.ProvideZap()
+	logger, cleanup3, err := pkg.ProvideZap()
 	if err != nil {
-		cleanup3()
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
 	meowSeederWorker := worker.ProvideMeowSeederWorker(natsMeowEventReceiver, elasticMeowRepository, logger)
 	return meowSeederWorker, func() {
-		cleanup4()
 		cleanup3()
 		cleanup2()
 		cleanup()

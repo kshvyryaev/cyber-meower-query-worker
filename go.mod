@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/elastic/go-elasticsearch/v8 v8.0.0-20211029144209-b121d5c06a2f
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.3 // indirect
 	go.uber.org/zap v1.19.1
@@ -20,7 +21,6 @@ require (
 )
 
 require (
-	github.com/elastic/go-elasticsearch/v7 v7.15.1
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 )
