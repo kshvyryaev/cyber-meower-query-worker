@@ -28,6 +28,7 @@ func ProvideMeowSeederWorker(
 
 func (worker *MeowSeederWorker) Run(wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	for meowEvent := range worker.meowEventReceiver.Receive() {
 		worker.logger.Info("Event received from nats",
 			zap.Int("id", meowEvent.ID),
