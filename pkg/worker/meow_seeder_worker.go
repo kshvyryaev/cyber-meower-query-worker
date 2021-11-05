@@ -41,7 +41,11 @@ func (worker *MeowSeederWorker) Run(wg *sync.WaitGroup) {
 		}
 
 		if err := worker.meowRepository.Create(meow); err != nil {
-			worker.logger.Error("meow seeder worker: " + err.Error())
+			worker.logger.Error("Event didn't insert into elastic: "+err.Error(),
+				zap.Int("id", meowEvent.ID),
+				zap.String("body", meowEvent.Body),
+				zap.Time("created_on", meowEvent.CreatedOn))
+			continue
 		}
 
 		worker.logger.Info("Event inserted into elastic",
