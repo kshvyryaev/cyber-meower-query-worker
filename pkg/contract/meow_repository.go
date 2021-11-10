@@ -1,4 +1,4 @@
-package search
+package contract
 
 import "github.com/kshvyryaev/cyber-meower-query-worker/pkg/domain"
 

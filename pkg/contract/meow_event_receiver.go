@@ -1,4 +1,4 @@
-package event
+package contract
 
 import eventContract "github.com/kshvyryaev/cyber-meower-event/pkg/event"
 

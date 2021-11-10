@@ -8,7 +8,6 @@ import (
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"
-	"github.com/google/wire"
 	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/domain"
 	"github.com/pkg/errors"
 )
@@ -46,8 +45,3 @@ func (repository *ElasticMeowRepository) Create(meow *domain.Meow) error {
 
 	return nil
 }
-
-var ElasticMeowRepositorySet = wire.NewSet(
-	ProvideElasticMeowRepository,
-	wire.Bind(new(MeowRepository), new(*ElasticMeowRepository)),
-)

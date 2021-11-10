@@ -3,21 +3,20 @@ package worker
 import (
 	"sync"
 
+	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/contract"
 	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/domain"
-	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/event"
-	"github.com/kshvyryaev/cyber-meower-query-worker/pkg/search"
 	"go.uber.org/zap"
 )
 
 type MeowSeederWorker struct {
-	meowEventReceiver event.MeowEventReceiver
-	meowRepository    search.MeowRepository
+	meowEventReceiver contract.MeowEventReceiver
+	meowRepository    contract.MeowRepository
 	logger            *zap.Logger
 }
 
 func ProvideMeowSeederWorker(
-	meowEventReceiver event.MeowEventReceiver,
-	meowRepository search.MeowRepository,
+	meowEventReceiver contract.MeowEventReceiver,
+	meowRepository contract.MeowRepository,
 	logger *zap.Logger) *MeowSeederWorker {
 	return &MeowSeederWorker{
 		meowEventReceiver: meowEventReceiver,
