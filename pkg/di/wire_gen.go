@@ -16,7 +16,10 @@ import (
 // Injectors from wire.go:
 
 func InitializeMeowSeederWorker() (*worker.MeowSeederWorker, func(), error) {
-	config := pkg.ProvideConfig()
+	config, err := pkg.ProvideConfig()
+	if err != nil {
+		return nil, nil, err
+	}
 	encodedConn, cleanup, err := event.ProvideNats(config)
 	if err != nil {
 		return nil, nil, err

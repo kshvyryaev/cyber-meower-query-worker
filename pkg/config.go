@@ -1,21 +1,20 @@
 package pkg
 
 import (
-	"flag"
+	"github.com/kelseyhightower/envconfig"
+	"github.com/pkg/errors"
 )
 
 type Config struct {
-	EventStoreAddress string
-	ElasticAddress    string
+	EventStoreAddress string `envconfig:"EVENT_STORE_ADDRESS"`
+	ElasticAddress    string `envconfig:"ELASTIC_ADDRESS"`
 }
 
-func ProvideConfig() *Config {
-	config := &Config{
-		EventStoreAddress: *flag.String("eventStoreAddress", "127.0.0.1:4222", "Event store address"),
-		ElasticAddress:    *flag.String("elasticAddress", "http://127.0.0.1:9200", "Elastic search address"),
+func ProvideConfig() (*Config, error) {
+	var config Config
+	err := envconfig.Process("", &config)
+	if err != nil {
+		return nil, errors.Wrap(err, "config")
 	}
-
-	flag.Parse()
-
-	return config
+	return &config, nil
 }
